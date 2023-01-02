@@ -5,19 +5,20 @@ import AppProvider from '../lib/context';
 
 export default function App({ Component, pageProps }) {
   return (
-    <Connector
-      brokerUrl={process.env.BROKER_URL}
-      >
-      <AppProvider>
-        <Layout>
-            <Component {...pageProps} />
-        </Layout>
-      </AppProvider>
-    </Connector>
     // <AppProvider>
-    //   <Layout>
-    //     <Component {...pageProps} />
-    //   </Layout>
-    // </AppProvider>
+    // <Connector
+    //   // brokerUrl={`${process.env.BROKER_URL}`}
+    //   brokerUrl='mqtt://tatrawo:K1FADvCXcoL0pYaf@tatrawo.cloud.shiftr.io'
+    //   >
+    //     <Layout>
+    //         <Component {...pageProps} />
+    //     </Layout>
+    //     </Connector>
+    //   </AppProvider>
+    <AppProvider>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </AppProvider>
   )
 }

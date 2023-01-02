@@ -7,7 +7,7 @@ const Login = () => {
     <div className='flex items-center flex-col'>
         <div className='flex items-center gap-3 text-white'>
             <h2 className='text-2xl md:text-3xl text-center font-extrabold text-white mb-4'>Login</h2> |
-            <p className='text-slate-500'>don't have account? </p>
+            <p className='text-slate-500'>do not have account? </p>
             <Link href='/signup' className='text-white'>Sign up</Link>
         </div>
         <LoginForm />

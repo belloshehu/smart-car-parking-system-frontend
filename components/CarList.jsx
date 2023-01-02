@@ -3,13 +3,25 @@ import React, {useEffect} from 'react'
 import { useGlobalContext } from '../lib/context'
 import Car from './Car'
 
-const CarList = () => {
-  const {spaceStatus, setSpaceStatus} = useGlobalContext()
-  
+const CarList = ({spaceMessageString}) => {
+  const {spaceStatus,} = useGlobalContext()
+  console.log(spaceMessageString)
+
+  useEffect(()=>{
+    console.log('here')
+    console.log('status:', spaceStatus)
+  },[spaceMessageString, spaceStatus])
+
   return (
     <div className='grid grid-cols-1 md:grid-cols-3 gap-4 my-5 w-full'>
         {
-          spaceStatus.map((space, index)=>  <Car name={`Space ${index + 1}`} message={spaceStatus[index]}/>)
+          spaceStatus.map((space, index)=>  
+            <Car 
+              name={`Space ${index + 1}`} 
+              message={spaceStatus[index]} 
+              key={index}
+            />
+          )
         }
     </div>
   )

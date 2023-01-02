@@ -5,7 +5,7 @@ import { useGlobalContext } from '../lib/context'
 
 // const router = useRouter()
 
-const reservation = () => {
+const Reservation = () => {
 
     const {user, setUser} = useGlobalContext()
     
@@ -23,4 +23,4 @@ const reservation = () => {
     )
 }
 
-export default reservation
+export default Reservation

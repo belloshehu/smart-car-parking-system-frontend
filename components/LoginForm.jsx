@@ -1,6 +1,7 @@
 import React from 'react'
 import {BsFacebook} from 'react-icons/bs'
 import {AiFillGoogleCircle} from 'react-icons/ai'
+
 const LoginForm = () => {
   return (
     <div className='w-full p-2 md:w-4/12 md:p-10 bg-slate-600 shadow-md shadow-slate-500'>
