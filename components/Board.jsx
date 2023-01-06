@@ -3,21 +3,17 @@ import { useGlobalContext } from '../lib/context'
 
 const Board = () => {
 
-  const {spaceStatus, reservations} = useGlobalContext()
-
+  const {reservations, spaceMessageString} = useGlobalContext()
   const [totalSpace, setTotalSpace] = useState(0)
   const [freeSpace, setFreeSpace] = useState(0)
   const [reservedSpace, setReservedSpace] = useState(0)
 
-  const setValues = () =>{
-
-  }
 
   useEffect(() => {
-    setTotalSpace(spaceStatus.length)
-    setFreeSpace(spaceStatus.filter((val)=> val===0 ).length)
+    setTotalSpace(spaceMessageString.length)
+    setFreeSpace(spaceMessageString.filter((val)=> val==='0' ).length)
     setReservedSpace(reservations.length)
-  }, [spaceStatus])
+  }, [spaceMessageString])
   
 
   return (

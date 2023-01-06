@@ -3,10 +3,16 @@ import {AiFillCar} from 'react-icons/ai'
 import {FaBars} from 'react-icons/fa'
 import Link from 'next/link'
 import { useGlobalContext } from '../lib/context'
+import { useRouter } from 'next/router'
 
 const Header = () => {
+    const router = useRouter()
+    const {user, setUser} = useGlobalContext()
 
-    const {user} = useGlobalContext()
+    const handleLogOut = () =>{
+        setUser(null)
+        router.push('/')
+    }
 
     return (
         <div className='flex justify-between flex-row p-3 py-3 md:px-20 w-full bg-slate-500 shadow-lg fixed top-0 left-0 z-10'>
@@ -22,16 +28,24 @@ const Header = () => {
                 </li>
 
                 {
-                    !user ? '' :(
+                    !user ? (
                         <li className='hover:text-white'>
-                            <Link href="/dashboard">Dashboard</Link>
+                            <Link href="/login">Login</Link>
                         </li>
+                    ) :(
+                        <>
+                            <li className='hover:text-white'>
+                                <Link href="/dashboard">Dashboard</Link>
+                            </li>
+                            <li className='hover:text-white'>
+                                {/* <button onClick={handleLogOut}>Logout</button> */}
+                                <Link href="/" onClick={handleLogOut}>Logout</Link>
+                            </li>
+                        </>
                     ) 
                 }
 
-                <li className='hover:text-white'>
-                    <Link href="/login">Login</Link>
-                </li>
+                
             </ul>
         
         </div>
