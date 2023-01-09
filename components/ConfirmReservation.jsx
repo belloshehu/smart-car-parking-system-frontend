@@ -3,9 +3,11 @@ import { useState, useEffect } from 'react'
 import { useGlobalContext } from '../lib/context'
 import Modal from './Modal'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
+
 
 const ConfirmReservation = () => {
-    const {reservation, rate, setReservation, onOpen, isOpen, onClose} = useGlobalContext()
+    const {reservation, rate, setReservation, onOpen, isOpen, onClose, mqttClient} = useGlobalContext()
     const {minutes, hours, spaceId} = reservation
     const router = useRouter()
 
@@ -15,23 +17,24 @@ const ConfirmReservation = () => {
     }
 
     const sendRequest = async()=>{
-        console.log('sending request')
-        // const res = await fetch('http://localhost:8000/detail/33')
         try {
-                const res = await fetch(`http://localhost:8000/reservation`, {
+                await fetch(`http://localhost:8000/reservation`, {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                },
                 body: JSON.stringify(reservation)
             })
-            const data = await res.json()
-            console.log(data)
+            mqttClient.publish('/car/parking/system/reservation', `${reservation.space_id}1`)
+            onOpen('Reservation success', 'Your reservation was successfully made.')
         } catch (error) {
             console.log(error)
+            onOpen('error', error)
         }
     }
 
     const handleConfirmClick = () =>{
-        onOpen('Reservation success', 'Your reservation was successfully made.')
         sendRequest()
         setTimeout(()=>{
             router.push('/')
@@ -58,7 +61,7 @@ const ConfirmReservation = () => {
             </p>
             <div className='flex justify-between gap-4 mt-8'>
                 <button className='w-full p-3 bg-amber-600 my-3' onClick={handleConfirmClick}>Confirm</button>
-                <button className='w-full p-3 bg-slate-200 my-3 text-black'>Go back</button>
+                <Link className='w-full p-3 bg-slate-200 my-3 text-black' href={`/reservation/${spaceId}`}>Go back</Link>
             </div>
         </div>
     </div>

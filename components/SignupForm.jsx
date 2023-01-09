@@ -78,7 +78,7 @@ const SignupForm = () => {
                 <div className='flex flex-col gap-2  text-left'>
                     <label htmlFor='second_name' className='text-white'>Second Name</label>
                     <input 
-                        id='first_name'
+                        id='second_name'
                         // name='email'
                         type='text' 
                         placeholder='Enter second name' 

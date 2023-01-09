@@ -25,7 +25,7 @@ const useSubmit = () => {
         setResponse({ 
           type: resData.detail.type, 
           message: resData.detail.message,
-          data: resData.data 
+          data: resData?.data 
         })
       }
    } catch (error) { 

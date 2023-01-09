@@ -12,7 +12,7 @@ const Modal = () => {
                     className='text-3xl top-4 right-4 absolute text-red-900 font-bold bg-slate-400'
                     onClick={onClose}
                     />
-                <h2 className='text-amber-600 text-2xl lg:text-3xl  font-extrabold bg-slate-700 p-2 rounded-xl w-1/2'>{type}</h2>
+                <h2 className='text-amber-600 text-2xl lg:text-3xl  font-extrabold bg-slate-700 p-2 rounded-xl w-full lg:w-1/2'>{type}</h2>
                 <p className='text-black'>{message}</p>
            </div>
         </div>

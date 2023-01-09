@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import { FaMoneyBill } from 'react-icons/fa'
+import { FaMoneyBill, FaCoin, FaMoneyCheck } from 'react-icons/fa'
 import * as Yup from 'yup'
 import {useFormik} from 'formik'; 
 import useSubmit from '../hooks/useSubmit';
@@ -14,7 +14,7 @@ const ReservationForm = () => {
     const router = useRouter()
 
     const {isLoading, response, submit} = useSubmit(); 
-    const { onOpen, isOpen, setReservation, rate, reservation, user} = useGlobalContext(); 
+    const { onOpen, isOpen, setReservation, rate, reservation, mqttClient} = useGlobalContext(); 
     
     const formik = useFormik({ 
         initialValues: { 
@@ -22,9 +22,8 @@ const ReservationForm = () => {
             minutes: reservation.minutes, 
         }, 
         onSubmit: (values) => {
+            setReservation({...reservation, ...values, space_id: router.query.id})
             router.push('/confirm')
-            console.log(values)
-            setReservation({...reservation, ...values, spaceId: router.query.id, user})
         }, 
         validationSchema: Yup.object({  
             hours: Yup.string().required("Required"),
@@ -57,8 +56,8 @@ const ReservationForm = () => {
             <div className='bg-slate-500 p-2 shadow-lg flex justify-between gap-4 items-center text-slate-800'>
                 <p>{rate} Naira / hour</p>
                 <div className='flex justify-between items-center gap-2'>
-                    <FaMoneyBill className='text-slate-700 text-2xl'/>
-                    <p>Cost: {} Naira</p>
+                    <FaMoneyCheck className='text-slate-700 text-2xl'/>
+                    <p>Cost: {calculateCost()} Naira</p>
                 </div>
             </div>
             <section className='grid grid-cols-2 gap-2'>

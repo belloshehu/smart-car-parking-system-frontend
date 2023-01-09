@@ -6,16 +6,16 @@ import {useRouter} from 'next/router'
 const Reservation = () => {
     const router = useRouter()
     const spaceId = router.query.id
-    const {user, setUser, setReservation, reservation} = useGlobalContext()
+    const {setReservation, reservation, isAuthenticated} = useGlobalContext()
     
     useEffect(()=>{
-        if(!user){
-            router.push('/login', )
+        if(!isAuthenticated){
+            router.push('/login')
         }
     }, [])
 
     useEffect(()=>{
-          setReservation({...reservation, spaceId})
+          setReservation({...reservation, space_id:spaceId})
     }, [])
     
     return (

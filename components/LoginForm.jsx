@@ -9,7 +9,7 @@ import Modal from './Modal'
 import { useRouter } from 'next/router'
 
 const LoginForm = () => {
-    const {isOpen, onOpen, setUser, onClose, setReservation, reservation} = useGlobalContext()
+    const {isOpen, onOpen, setUser, onClose, setIsAuthenticated} = useGlobalContext()
     const {response, submit, setResponse} = useSubmit()
     const router = useRouter()
 
@@ -35,9 +35,10 @@ const LoginForm = () => {
             if (response.type === 'success') { 
                 formik.resetForm(); 
                 onOpen('success', 'You have successfully logged in!'); 
+                localStorage.setItem('token', response.data.token)
+                setIsAuthenticated(true)
+                setUser(response.data.user)
                 router.push('/')
-                console.log(response.data)
-                setUser(response.data)
             }
             setTimeout(()=>{
                 onClose()
@@ -49,7 +50,7 @@ const LoginForm = () => {
     return (
         <div className='w-full p-2 lg:w-4/12 md:p-10 bg-slate-600 shadow-md shadow-slate-500 '>
             {
-                isOpen && <Modal />
+                isOpen? <Modal /> : ""
             }
             <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
                 <div className='flex flex-col gap-2  text-left'>

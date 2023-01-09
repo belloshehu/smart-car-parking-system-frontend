@@ -1,12 +1,27 @@
 import CarList from '../components/CarList';
 import Board from '../components/Board';
 import Notification from '../components/Notification';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useGlobalContext } from '../lib/context';
 import mqtt from 'mqtt'
+import Spinner from '../components/Spinner';
+import { string } from 'yup/lib/locale';
+import { stringToBool, filterSpacesToUpdate } from '../lib/utils';
 
 
-export default function Home({spaces}) {
+export default function Home() {
+  const [loading, setLoading] = useState(true)
+  const [run, setRun] = useState(false)
+
+  const {
+    setMqttClient, 
+    mqttClient, 
+    spaceMessageString,
+    setSpaceMessageString,
+    spaces,
+    setSpaces
+  } = useGlobalContext()
+
   const host2 = 'ws://broker.emqx.io:8083/mqtt'
   const clientId = `mqttjs_1+ ${Math.random().toString(16).substr(2, 8)}`;
 
@@ -25,52 +40,66 @@ export default function Home({spaces}) {
       retain: false
     },
   }
-  console.log('Connecting mqtt client')
-  const client = mqtt.connect(host2, options)
 
-  const [freeSpace, setFreeState] = useState(1)
-  const {
-    setMqttClient, 
-    mqttClient, 
-    spaceMessageString,
-    setSpaceMessageString
-  } = useGlobalContext()
 
-  const [run, setRun] = useState(false)
-
-  const publishStatus = (msg)=>{
-    client.publish('/bello/shehu/reservation', msg,  { qos: 0, retain: false })
+  const fetchData = async ()=>{
+    await fetch('http://localhost:8000/space/all')
+    .then(res => res.json())
+    .then(data => setSpaces(data))
+    .catch(error=> console.log(error))
   }
-  const handleClick = ()=>{
-    setRun(true)
-    publishStatus('hsss')
-  }
-  if(client){
+
+  const connectClient = useCallback(async()=>{
+    console.log('Connecting mqtt client')
+    const client = await mqtt.connect(host2, options)
     setMqttClient(client)
-  }
+  }, [mqttClient])
 
-  client.on('connect', function(){
+  mqttClient?.on('connect', function(){
     console.log('connected')
-    client.subscribe('/bello/shehu/test')
+    mqttClient?.subscribe('/car/parking/system/space')
   })
 
-  // timer = setInterval(()=>{
-  //   if(run == true && count <= 5){
-  //     publishStatus('heeey')
-  //     setRun(false)
-  //     count = count + 1
-  //   }else{
-  //     count = 0
-  //     clearInterval(timer)
-  //   }
-  // }, 2000)
+  mqttClient?.on('message', function(topic, message){
+    // fetchData()
+    setSpaceMessageString(message.toString().slice(0, 5).split(','))
+    const {modified_spacesToBeUpdated, modified_spaces} = filterSpacesToUpdate(spaces, message.toString().slice(0, 5).split(','))
 
-  client.on('message', (topic, message)=>{
-    console.log('receieved: ', message.toString().split(','))
-    setSpaceMessageString(message.toString().split(','))
+    if(modified_spacesToBeUpdated.length > 0){
+      updateSpaces(modified_spacesToBeUpdated)
+      setSpaces(modified_spaces)
+    }
   })
+
+  const updateSpaces = useCallback(async(payload) =>{
+    console.log('payload', payload)
+    const res = await fetch(`http://localhost:8000/spaces`, {
+      method: "PUT",
+      headers: { 
+        "Content-Type": "application/json",
+       },
+      body: JSON.stringify(payload),
+
+    })
+    const data = await res.json()
+  }, [spaceMessageString])
 
   useEffect(() => {
+    fetchData()
+    connectClient()
+    if(!spaces){
+      setLoading(true)
+    }else{
+      setLoading(false)
+    }
+  }, [])
+  
+  useEffect(() => {
+    // setSpaces(db_spaces)
+
+    // const filtered = filterSpacesToUpdate(spaces, spaceMessageString)
+    // console.log('filtered: ', filtered)
+    // setFilteredSpaces(filtered)
     return ()=>{
         if(mqttClient){
           mqttClient.end()
@@ -78,33 +107,43 @@ export default function Home({spaces}) {
     }
 
   }, [spaceMessageString])
-   
+
+  if(loading){
+    return (
+      <div className='flex flex-col items-center justify-center'>
+          <Spinner message={'Loading ....'}/>
+      </div>
+    )
+  }
+
   return (
     <div className='flex flex-col items-center justify-center'>
-      <h1 className='text-white text-3xl md:text-5xl font-extrabold text-center'>Parking without stress</h1>
-      <p className='text-amber-500 text-lg my-5'>Use smart parking system to check for parking space before you drive. </p>
+      <h1 className='text-slate-700 text-3xl md:text-6xl font-extrabold text-center'>Parking without stress</h1>
+      <p className='text-slate-500 text-lg my-5'>Use smart parking system to check for parking space before you drive. </p>
       
       <Board />
       {
-        freeSpace === 0 ?
-        <Notification /> : <CarList spaces={spaces}/>
+        spaces.length === 0 ?
+        <Notification /> : <CarList/>
       }
     </div>
   )
 
 }
 
-export const getServerSideProps = async () =>{
-  try{
-    const res = await fetch('http://localhost:8000/space/all')
-    const spaces = await res.json()
-  }catch(error){
-    onOpen(type='error', message=error)
-  }
+// export const getServerSideProps = async () =>{
+//   let db_spaces = []
+//   try{
+//     const res = await fetch('http://localhost:8000/space/all')
+//     db_spaces = await res.json()
+//   }catch(error){
+//     // onOpen(type='error', message=error)
+//     console.log(error)
+//   }
 
-  return {
-    props: {
-      spaces
-    }
-  }
-}
+//   return {
+//     props: {
+//       db_spaces
+//     }
+//   }
+// }
