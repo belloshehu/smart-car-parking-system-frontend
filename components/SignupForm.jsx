@@ -10,8 +10,8 @@ import { useRouter } from 'next/router';
 
 
 const SignupForm = () => {
-    const {isLoading, response, submit, setResponse} = useSubmit(); 
-    const { onOpen, isOpen, onClose,  } = useGlobalContext(); 
+    const {response, submit, setResponse} = useSubmit(); 
+    const { onOpen, isOpen, onClose, backendUrl } = useGlobalContext(); 
     
     const router = useRouter()
 
@@ -24,7 +24,7 @@ const SignupForm = () => {
             confirm_password: "", 
         }, 
         onSubmit: (values) => { 
-            submit('http://localhost:8000/signup', values, 'POST'); 
+            submit(`${backendUrl}/signup`, values, 'POST'); 
             console.log(values)
         }, 
         validationSchema: Yup.object({ 
@@ -58,79 +58,88 @@ const SignupForm = () => {
     }, [response]); 
 
     return (
-        <div className='w-full p-2 md:w-4/12 md:p-10 bg-slate-600 shadow-md shadow-slate-500'>
+        <div className='w-full p-2 md:w-8/12 md:p-10 bg-slate-600 shadow-md shadow-slate-500'>
             {
                  isOpen && <Modal />
             }
             <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
-                <div className='flex flex-col gap-2  text-left'>
-                    <label htmlFor='first_name' className='text-white'>First Name</label>
-                    <input 
-                        id='first_name'
-                        // name='email'
-                        type='text' 
-                        placeholder='Enter first name' 
-                        className='p-4 outline-none border-none'
-                        {...formik.getFieldProps('first_name')}
-                    />
-                    <small className='text-red-500'>{formik.errors.first_name}</small>
+                <div className='flex flex-col lg:flex-row justify-between gap-2'>
+                    <div className='flex flex-col gap-2 text-left w-full'>
+                        <label htmlFor='first_name' className='text-white'>First Name</label>
+                        <input 
+                            id='first_name'
+                            // name='email'
+                            type='text' 
+                            placeholder='Enter first name' 
+                            className='p-4 outline-none border-none'
+                            {...formik.getFieldProps('first_name')}
+                        />
+                        <small className='text-red-500'>{formik.errors.first_name}</small>
+                    </div>
+                    <div className='flex flex-col gap-2  text-left w-full'>
+                        <label htmlFor='second_name' className='text-white'>Second Name</label>
+                        <input 
+                            id='second_name'
+                            // name='email'
+                            type='text' 
+                            placeholder='Enter second name' 
+                            className='p-4 outline-none border-none'
+                            {...formik.getFieldProps('second_name')}
+                        />
+                        <small className='text-red-500'>{formik.errors.second_name}</small>
+                    </div>
                 </div>
-                <div className='flex flex-col gap-2  text-left'>
-                    <label htmlFor='second_name' className='text-white'>Second Name</label>
-                    <input 
-                        id='second_name'
-                        // name='email'
-                        type='text' 
-                        placeholder='Enter second name' 
-                        className='p-4 outline-none border-none'
-                        {...formik.getFieldProps('second_name')}
-                    />
-                    <small className='text-red-500'>{formik.errors.second_name}</small>
+
+                <div className='flex flex-col lg:flex-row justify-items-stretch'>
+                    <div className='flex flex-col gap-2 text-left w-full'>
+                        <label htmlFor='email' className='text-white'>Email</label>
+                        <input 
+                            id='email'
+                            // name='email'
+                            type='email' 
+                            placeholder='Enter email' 
+                            className='p-4 outline-none border-none'
+                            {...formik.getFieldProps('email')}
+                        />
+                        <small className='text-red-500'>{formik.errors.email}</small>
+                    </div>
                 </div>
-                <div className='flex flex-col gap-2  text-left'>
-                    <label htmlFor='email' className='text-white'>Email</label>
-                    <input 
-                        id='email'
-                        // name='email'
-                        type='email' 
-                        placeholder='Enter email' 
-                        className='p-4 outline-none border-none'
-                        {...formik.getFieldProps('email')}
-                    />
-                    <small className='text-red-500'>{formik.errors.email}</small>
+
+                <div className='flex flex-col lg:flex-row justify-between gap-2'>
+                    <div className='flex flex-col gap-2 text-left w-full'>
+                        <label htmlFor='password' className='text-white'>Password</label>
+                        <input 
+                            id='password'
+                            // name='password'
+                            type='password' 
+                            placeholder='Enter password' 
+                            className='p-4 outline-none border-none'
+                            {...formik.getFieldProps('password')}
+                        />
+                        <small className='text-red-500'>{formik.errors.password}</small>
+                    </div>
+                    <div className='flex flex-col gap-2 text-left w-full'>
+                        <label htmlFor='confirm_password' className='text-white'>Confirm Password</label>
+                        <input 
+                            id='confirm_password'
+                            // name='password2'
+                            type='password' 
+                            placeholder='Enter password' 
+                            className='p-4 outline-none border-none'
+                            {...formik.getFieldProps('confirm_password')}
+                        />
+                        <small className='text-red-500'>
+                            {
+                                formik.errors.confirm_password
+                            }
+                        </small>
+                    </div>
                 </div>
-                <div className='flex flex-col gap-2 text-left'>
-                    <label htmlFor='password' className='text-white'>Password</label>
-                    <input 
-                        id='password'
-                        // name='password'
-                        type='password' 
-                        placeholder='Enter password' 
-                        className='p-4 outline-none border-none'
-                        {...formik.getFieldProps('password')}
-                    />
-                    <small className='text-red-500'>{formik.errors.password}</small>
-                </div>
-                <div className='flex flex-col gap-2 text-left'>
-                    <label htmlFor='confirm_password' className='text-white'>Confirm Password</label>
-                    <input 
-                        id='confirm_password'
-                        // name='password2'
-                        type='password' 
-                        placeholder='Enter password' 
-                        className='p-4 outline-none border-none'
-                        {...formik.getFieldProps('confirm_password')}
-                    />
-                    <small className='text-red-500'>
-                        {
-                            formik.errors.confirm_password
-                        }
-                    </small>
-                </div>
+                
                 <input  type='submit' className='w-full p-3 bg-amber-600 my-3' value='Submit'/>
-                <div className='flex justify-between items-center text-slate-100'>
-                    <p>Sign up with</p>
-                    <div className='flex gap-4'>
+                <div className='flex justify-between items-center text-slate-100 bg-slate-400 rounded-full p-2 px-4 opacity-90 group'>
+                    <p className=' group-hover:translate-x-20 transition-all duration-300 ease-in-out'>Sign up with</p>
+                    <div className='flex gap-4 group-hover:-translate-x-20 transition-all duration-300 ease-in-out'>
                         <BsFacebook className='bg-blue-600 rounded-full text-3xl hover:text-4xl transition-all duration-200 ease-linear'/>
                         <AiFillGoogleCircle className='bg-green-700 rounded-full text-3xl hover:text-4xl transition-all duration-200 ease-linear' />
                     </div>

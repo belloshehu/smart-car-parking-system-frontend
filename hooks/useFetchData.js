@@ -12,7 +12,6 @@ export const useFetchData = (url)=>{
         })
         const responseData = await response.json()
         setData(responseData)
-        console.log(responseData)
         setIsLoading(false)
     }, [url])
 

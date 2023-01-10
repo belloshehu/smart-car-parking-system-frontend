@@ -14,7 +14,7 @@ const ReservationForm = () => {
     const router = useRouter()
 
     const {isLoading, response, submit} = useSubmit(); 
-    const { onOpen, isOpen, setReservation, rate, reservation, mqttClient} = useGlobalContext(); 
+    const { onOpen, isOpen, setReservation, rate, reservation} = useGlobalContext(); 
     
     const formik = useFormik({ 
         initialValues: { 
@@ -42,7 +42,6 @@ const ReservationForm = () => {
 
     const calculateCost = () =>{
         const totalCost = rate * (hours + minutes /60)
-        // setReservation((prev)=>{ return {...prev, cost: totalCost}})
         return totalCost
     }
 

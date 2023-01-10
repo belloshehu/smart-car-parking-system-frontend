@@ -8,10 +8,10 @@ import { useRouter } from 'next/router'
 
 
 
-const UserReservation = () => {
+const Subscritions = () => {
   const router = useRouter()
   const {isOpen, isAuthenticated, backendUrl} = useGlobalContext()
-  const url = `${backendUrl}/reservation/all`
+  const url = `${backendUrl}/notification`
   const {isLoading, data, getData} = useFetchData(url)
 
   useEffect(()=>{
@@ -22,7 +22,7 @@ const UserReservation = () => {
   if(isLoading || !data){
     return(
       <div className='flex flex-col justify-center items-center gap-4 lg:gap-10'>
-        <Spinner message={'Loading user reservations'}/>
+        <Spinner message={'Loading user subscriptions'}/>
       </div>
     )
   }
@@ -38,7 +38,7 @@ const UserReservation = () => {
               }
           </div>
         ):
-        <p className='bg-slate-500 text-black text-center my-auto p-4'>You have no reservations</p>
+        <p className='bg-slate-500 text-black text-center my-auto p-4'>You have no subscritions</p>
       }
 
       {
@@ -48,26 +48,4 @@ const UserReservation = () => {
   )
 }
 
-
-// export const getServerSideProps = async () =>{
-//   let reservations = []
-//   try{
-//     const res = await fetch('http://localhost:8000/reservation/all', {
-//       header: {
-//         'Authorization': `Bearer ${localStorage.getItem('token')}` 
-//       }
-//     })
-//     reservations = await res.json()
-//   }catch(error){
-//     // onOpen(type='error', message=error)
-//     console.log(error)
-//   }
-  
-//   return {
-//     props: {
-//       reservations
-//     }
-//   }
-// }
-
-export default UserReservation
+export default Subscritions

@@ -9,7 +9,7 @@ import Modal from './Modal'
 import { useRouter } from 'next/router'
 
 const LoginForm = () => {
-    const {isOpen, onOpen, setUser, onClose, setIsAuthenticated} = useGlobalContext()
+    const {isOpen, onOpen, setUser, onClose, setIsAuthenticated, backendUrl} = useGlobalContext()
     const {response, submit, setResponse} = useSubmit()
     const router = useRouter()
 
@@ -19,7 +19,7 @@ const LoginForm = () => {
             password: '',
         },
         onSubmit: (values)=>{
-            submit('http://localhost:8000/login', values, 'POST');
+            submit(`${backendUrl}/login`, values, 'POST');
         },
         validationSchema: Yup.object({
             email: Yup.string().email('Invalid email address').required('Email required'),
@@ -38,12 +38,12 @@ const LoginForm = () => {
                 localStorage.setItem('token', response.data.token)
                 setIsAuthenticated(true)
                 setUser(response.data.user)
-                router.push('/')
             }
             setTimeout(()=>{
                 onClose()
+                router.push('/')
                 setResponse(null)
-            }, 5000)
+            }, 3000)
         } 
     }, [response]); 
 
@@ -79,9 +79,9 @@ const LoginForm = () => {
                 </div>
                 <input  type='submit' className='w-full p-3 bg-amber-600 my-3 text-white' value='Submit'/>
 
-                <div className='flex justify-between items-center text-slate-100'>
-                    <p>Login with</p>
-                    <div className='flex gap-4'>
+                <div className='flex justify-between items-center text-slate-100 bg-slate-400 rounded-full p-2 px-4 opacity-90 group'>
+                    <p className='group-hover:translate-x-5 transition-all duration-300 ease-in-out'>Login with</p>
+                    <div className='flex gap-4 group-hover:-translate-x-5 transition-all duration-300 ease-in-out'>
                         <BsFacebook className='bg-blue-600 rounded-full text-3xl hover:text-4xl transition-all duration-200 ease-linear'/>
                         <AiFillGoogleCircle className='bg-green-700 rounded-full text-3xl hover:text-4xl transition-all duration-200 ease-linear' />
                     </div>

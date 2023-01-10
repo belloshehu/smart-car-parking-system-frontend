@@ -10,3 +10,12 @@ body {
   background-color: rgb(30, 41, 59);
 
 }
+
+@layer components {
+  .nav-item-hover{
+    @apply transition-all duration-300 ease-in-out hover:bg-slate-600 hover:text-amber-500 hover:pl-10;
+  }
+  .nav-item-transition, .transition-props{
+    @apply transition-all duration-300 ease-in-out;
+  }
+}

@@ -4,12 +4,14 @@ import { useGlobalContext } from '../lib/context'
 import Modal from './Modal'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
+import { useModal } from '../hooks/useModal'
 
 
 const ConfirmReservation = () => {
-    const {reservation, rate, setReservation, onOpen, isOpen, onClose, mqttClient} = useGlobalContext()
+    const {reservation, rate, setReservation, isOpen, mqttClient, backendUrl} = useGlobalContext()
     const {minutes, hours, spaceId} = reservation
     const router = useRouter()
+    const {openAndClose} = useModal()
 
     const calculateCost = () =>{
         const totalCost = rate * (hours + minutes / 60)
@@ -18,7 +20,7 @@ const ConfirmReservation = () => {
 
     const sendRequest = async()=>{
         try {
-                await fetch(`http://localhost:8000/reservation`, {
+                await fetch(`${backendUrl}/reservation`, {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json",
@@ -27,20 +29,16 @@ const ConfirmReservation = () => {
                 body: JSON.stringify(reservation)
             })
             mqttClient.publish('/car/parking/system/reservation', `${reservation.space_id}1`)
-            onOpen('Reservation success', 'Your reservation was successfully made.')
+            openAndClose('success', 'Your reservation was successfully made.', 3000)
+            router.push('/userReservations')
         } catch (error) {
-            console.log(error)
-            onOpen('error', error)
+            openAndClose('error', error, 3000)
+            router.push('/')
         }
     }
 
     const handleConfirmClick = () =>{
         sendRequest()
-        setTimeout(()=>{
-            router.push('/')
-            onClose()
-            // setReservation(null)
-        }, 5000)
     }
 
     useEffect(() => {

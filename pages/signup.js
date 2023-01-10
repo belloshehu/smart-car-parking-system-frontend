@@ -10,7 +10,7 @@ const Signup = () => {
             <h2 className='text-2xl md:text-3xl text-center font-extrabold mb-4'>Sign up |</h2>
             <div className='flex justify-between gap-2'>
               <p className='text-slate-500'>have an account? </p>
-              <Link href='/signup' className=''>Login</Link>
+              <Link href='/login' className=''>Login</Link>
             </div>
         </div>
         <SignupForm />

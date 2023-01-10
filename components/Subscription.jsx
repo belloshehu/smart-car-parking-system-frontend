@@ -1,39 +1,31 @@
-import { MqttClient } from 'mqtt'
 import React from 'react'
 import { FaCalendar, FaClock, FaMoneyBill } from 'react-icons/fa'
 import { useModal } from '../hooks/useModal'
 import { useGlobalContext } from '../lib/context'
 
-const Reservation = ({id, cost, space_id, datetime}) => {
-    console.log(datetime)
+const Subscription = ({id, title, expired, datetime}) => {
     const {openAndClose} = useModal()
-    const {mqttClient, backendUrl} = useGlobalContext()
+    const {backendUrl} = useGlobalContext()
 
     const handleCancel = async()=>{
         try {
-            const response = await fetch(`${backendUrl}/reservation/${id}`, {
-                method: 'PUT',
+            const response = await fetch(`${backendUrl}/notification/${id}`, {
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             })
-            const data = await response.json()
-            openAndClose('success', 'Reservation cancelled', 5000)
-            mqttClient.publish('/car/parking/system/reservation', `${space_id}0`)
+            openAndClose('success', 'Subscription cancelled', 5000)
         } catch (error) {
-            openAndClose('error', 'Reservation cancellation failed', 5000)
+            openAndClose('error', 'Subscription cancellation failed', 5000)
         }
     }
 
     return (
         <div className='bg-slate-300 rounded-md p-4 flex flex-col gap-4 justify-center items-center'>
-            <div className='flex justify-between w-full items-center p-2 bg-slate-400'>
-                <h3 className='bg-slate-600 p-2 text-xl font-bold text-white'>Space ID: {space_id}</h3>
-                <div className='flex justify-start text-left gap-4 items-center'>
-                    <FaMoneyBill />
-                    <p><span className='line-through'>N</span>{cost.toFixed(2)}</p>
-                </div>    
+            <div className='p-2 bg-slate-400'>
+                <h3 className='bg-slate-600 p-2 text-xl font-bold text-white'>{title}</h3>    
             </div>
             
             <div className='flex justify-between w-full text-slate-700'>       
@@ -53,4 +45,4 @@ const Reservation = ({id, cost, space_id, datetime}) => {
     )
 }
 
-export default Reservation
+export default Subscription
