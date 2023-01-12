@@ -15,7 +15,7 @@ const Board = () => {
   
 
   return (
-    <div className='my-2 shadow-md shadow-white bg-slate-00 p-2 md:p-5 w-full rounded-full hover:bg-slate-300 group transition-pros'>
+    <div className='my-2 lg:w-8/12 shadow-md shadow-white bg-slate-00 p-2 md:p-5 w-full rounded-full hover:bg-slate-300 group transition-pros'>
       <div className='p-2 px-4 bg-slate-400 rounded-full flex justify-center gap-1 lg:gap-4 w-full group-hover:bg-slate-500 transition-props'>
         <h1 className='text-xl text-white lg:font-bold'>Total : {spaces.length}</h1> |
         <h1 className='text-xl text-slate-600 lg:font-bold'>Free : {freeSpace}</h1> |

@@ -113,21 +113,19 @@ export default function Spaces() {
 
   return (
     <div className='flex flex-col items-center justify-center pt-10 lg:pt-0'>
-      {/* <TypewriterText  wordList={['Parking without stress']}/> */}
-      {/* <p className='text-slate-500 text-lg my-5'>Use smart parking system to check for parking space before you drive. </p> */}
-      
       <Board />
-
       {
         spaces.length === 0 ?
         (
-          <div className='flex flex-col-reverse lg:flex-row justify-between gap-4 items-center mt-10 bg-slate-300 p-4'>
+          <div className='flex flex-col-reverse lg:flex-row justify-between gap-4 items-center mt-10 p-2 bg-slate-300 py:20 lg:p-20'>
             <Notification /> 
             <Image src={carParkImage1} alt='cap-park' className='h-500 w-full lg:w-1/2 rounded-lg'/>
           </div>
         ):
         (
-          <CarList/>
+          <div className='flex flex-col justify-between items-center w-full p-2 lg:p-20 mb-20'>
+            <CarList/>
+          </div>
         )
       }
     </div>

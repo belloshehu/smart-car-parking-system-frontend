@@ -2,20 +2,26 @@
 @tailwind components; 
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bad+Script&family=Moon+Dance&display=swap');
 
 body {
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif 'Poppins', 'sans-serif';
+  font-family: 'poppins','Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif 'Poppins', 'sans-serif';
   font-size: 18px;
   background-color: rgb(30, 41, 59);
 
+}
+
+.brand-name {
+  font-family: 'forte', cursive;
 }
 
 @layer components {
   .nav-item-hover{
     @apply transition-all duration-300 ease-in-out hover:bg-slate-600 hover:text-amber-500 hover:pl-10;
   }
+ 
   .nav-item-transition, .transition-props{
     @apply transition-all duration-300 ease-in-out;
   }
 }
+

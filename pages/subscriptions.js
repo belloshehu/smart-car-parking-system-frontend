@@ -28,7 +28,7 @@ const Subscritions = () => {
   }
   return (
     <div className='flex flex-col justify-center items-center gap-4 lg:gap-10'>
-      <h2 className='text-slate-700 text-2xl md:text-3xl font-extrabold text-center border-b-4 border-black lg:w-1/2'>User reservations</h2>
+      <h2 className='text-slate-700 text-2xl md:text-3xl font-extrabold text-center border-b-4 border-black lg:w-1/2'>Notifications</h2>
       {
         data?.length > 0 ?
         (

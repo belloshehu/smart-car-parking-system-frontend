@@ -25,7 +25,7 @@ const SignupForm = () => {
         }, 
         onSubmit: (values) => { 
             submit(`${backendUrl}/signup`, values, 'POST'); 
-            console.log(values)
+            onOpen("Signing up", "Please wait...")
         }, 
         validationSchema: Yup.object({ 
             email: Yup.string().email("Invalid email address").required("Email required"), 
@@ -45,7 +45,6 @@ const SignupForm = () => {
     useEffect(() => { 
         if (response) { 
             onOpen(response.type, response.message)
-
             if (response.type === 'success') { 
                 formik.resetForm(); 
                 router.push('/login')
@@ -58,7 +57,7 @@ const SignupForm = () => {
     }, [response]); 
 
     return (
-        <div className='w-full p-2 md:w-8/12 md:p-10 bg-slate-600 shadow-md shadow-slate-500'>
+        <div className='w-full p-2 md:w-6/12 md:p-10 bg-slate-600 shadow-md shadow-slate-500'>
             {
                  isOpen && <Modal />
             }
@@ -138,8 +137,8 @@ const SignupForm = () => {
                 
                 <input  type='submit' className='w-full p-3 bg-amber-600 my-3' value='Submit'/>
                 <div className='flex justify-between items-center text-slate-100 bg-slate-400 rounded-full p-2 px-4 opacity-90 group'>
-                    <p className=' group-hover:translate-x-20 transition-all duration-300 ease-in-out'>Sign up with</p>
-                    <div className='flex gap-4 group-hover:-translate-x-20 transition-all duration-300 ease-in-out'>
+                    <p className=' group-hover:translate-x-5 lg:group-hover:translate-x-20 transition-all duration-300 ease-in-out'>Sign up with</p>
+                    <div className='flex gap-4 group-hover:-translate-x-5 lg:group-hover:-translate-x-20 transition-all duration-300 ease-in-out'>
                         <BsFacebook className='bg-blue-600 rounded-full text-3xl hover:text-4xl transition-all duration-200 ease-linear'/>
                         <AiFillGoogleCircle className='bg-green-700 rounded-full text-3xl hover:text-4xl transition-all duration-200 ease-linear' />
                     </div>

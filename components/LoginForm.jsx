@@ -7,8 +7,13 @@ import { useGlobalContext } from '../lib/context'
 import * as Yup from 'yup'
 import Modal from './Modal'
 import { useRouter } from 'next/router'
+import Spinner from './Spinner'
+import { useModal } from '../hooks/useModal'
+
 
 const LoginForm = () => {
+    const {openAndClose} = useModal()
+
     const {isOpen, onOpen, setUser, onClose, setIsAuthenticated, backendUrl} = useGlobalContext()
     const {response, submit, setResponse} = useSubmit()
     const router = useRouter()
@@ -20,6 +25,7 @@ const LoginForm = () => {
         },
         onSubmit: (values)=>{
             submit(`${backendUrl}/login`, values, 'POST');
+            onOpen('Loging in', 'Please wait...'); 
         },
         validationSchema: Yup.object({
             email: Yup.string().email('Invalid email address').required('Email required'),
@@ -38,6 +44,8 @@ const LoginForm = () => {
                 localStorage.setItem('token', response.data.token)
                 setIsAuthenticated(true)
                 setUser(response.data.user)
+            }else{
+                onOpen(response.type, response.message)
             }
             setTimeout(()=>{
                 onClose()
