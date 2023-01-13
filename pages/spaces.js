@@ -6,7 +6,6 @@ import { useGlobalContext } from '../lib/context';
 import mqtt from 'mqtt'
 import Spinner from '../components/Spinner';
 import { filterSpacesToUpdate } from '../lib/utils';
-import TypewriterText from '../components/TypewriterText';
 import carParkImage1 from '../images/car-park1.jpg'
 import Image from 'next/image';
 
@@ -23,7 +22,7 @@ export default function Spaces() {
     backendUrl,
   } = useGlobalContext()
 
-  const host2 = 'ws://broker.emqx.io:8083/mqtt'
+  const host2 = 'wss://broker.emqx.io:8084/mqtt'
   const clientId = `mqttjs_1+ ${Math.random().toString(16).substr(2, 8)}`;
 
   const options = {
@@ -62,7 +61,7 @@ export default function Spaces() {
   })
 
   mqttClient?.on('message', function(topic, message){
-    // fetchData()
+  
     setSpaceMessageString(message.toString().slice(0, 5).split(','))
     const {modified_spacesToBeUpdated, modified_spaces} = filterSpacesToUpdate(spaces, message.toString().slice(0, 5).split(','))
 
@@ -95,11 +94,11 @@ export default function Spaces() {
   }, [])
   
   useEffect(() => {
-    return ()=>{
-        if(mqttClient){
-          mqttClient.end()
-        } 
-    }
+    // return ()=>{
+    //     if(mqttClient){
+    //       mqttClient.end()
+    //     } 
+    // }
 
   }, [spaceMessageString])
 

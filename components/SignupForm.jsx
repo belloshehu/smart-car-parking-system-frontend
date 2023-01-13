@@ -57,32 +57,32 @@ const SignupForm = () => {
     }, [response]); 
 
     return (
-        <div className='w-full p-2 md:w-6/12 md:p-10 bg-slate-600 shadow-md shadow-slate-500'>
+        <div className='w-full p-2 md:w-6/12 md:p-10 bg-slate-00'>
             {
                  isOpen && <Modal />
             }
-            <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
+            <form className='flex flex-col gap-4 text-black' onSubmit={formik.handleSubmit}>
                 <div className='flex flex-col lg:flex-row justify-between gap-2'>
                     <div className='flex flex-col gap-2 text-left w-full'>
-                        <label htmlFor='first_name' className='text-white'>First Name</label>
+                        <label htmlFor='first_name' className=''>First Name</label>
                         <input 
                             id='first_name'
                             // name='email'
                             type='text' 
                             placeholder='Enter first name' 
-                            className='p-4 outline-none border-none'
+                            className='p-4 border-black border-2'
                             {...formik.getFieldProps('first_name')}
                         />
                         <small className='text-red-500'>{formik.errors.first_name}</small>
                     </div>
                     <div className='flex flex-col gap-2  text-left w-full'>
-                        <label htmlFor='second_name' className='text-white'>Second Name</label>
+                        <label htmlFor='second_name' className=''>Second Name</label>
                         <input 
                             id='second_name'
                             // name='email'
                             type='text' 
                             placeholder='Enter second name' 
-                            className='p-4 outline-none border-none'
+                            className='p-4 border-black border-2'
                             {...formik.getFieldProps('second_name')}
                         />
                         <small className='text-red-500'>{formik.errors.second_name}</small>
@@ -91,13 +91,13 @@ const SignupForm = () => {
 
                 <div className='flex flex-col lg:flex-row justify-items-stretch'>
                     <div className='flex flex-col gap-2 text-left w-full'>
-                        <label htmlFor='email' className='text-white'>Email</label>
+                        <label htmlFor='email' className=''>Email</label>
                         <input 
                             id='email'
                             // name='email'
                             type='email' 
                             placeholder='Enter email' 
-                            className='p-4 outline-none border-none'
+                            className='p-4 border-black border-2'
                             {...formik.getFieldProps('email')}
                         />
                         <small className='text-red-500'>{formik.errors.email}</small>
@@ -106,25 +106,25 @@ const SignupForm = () => {
 
                 <div className='flex flex-col lg:flex-row justify-between gap-2'>
                     <div className='flex flex-col gap-2 text-left w-full'>
-                        <label htmlFor='password' className='text-white'>Password</label>
+                        <label htmlFor='password' className=''>Password</label>
                         <input 
                             id='password'
                             // name='password'
                             type='password' 
                             placeholder='Enter password' 
-                            className='p-4 outline-none border-none'
+                            className='p-4 border-black border-2'
                             {...formik.getFieldProps('password')}
                         />
                         <small className='text-red-500'>{formik.errors.password}</small>
                     </div>
                     <div className='flex flex-col gap-2 text-left w-full'>
-                        <label htmlFor='confirm_password' className='text-white'>Confirm Password</label>
+                        <label htmlFor='confirm_password' className=''>Confirm Password</label>
                         <input 
                             id='confirm_password'
                             // name='password2'
                             type='password' 
                             placeholder='Enter password' 
-                            className='p-4 outline-none border-none'
+                            className='p-4 border-black border-2'
                             {...formik.getFieldProps('confirm_password')}
                         />
                         <small className='text-red-500'>

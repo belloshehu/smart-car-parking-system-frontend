@@ -20,14 +20,16 @@ const ReservationForm = () => {
         initialValues: { 
             hours: reservation.hours, 
             minutes: reservation.minutes, 
+            plate_number: ''
         }, 
         onSubmit: (values) => {
             setReservation({...reservation, ...values, space_id: router.query.id})
             router.push('/confirm')
         }, 
         validationSchema: Yup.object({  
-            hours: Yup.string().required("Required"),
-            minutes: Yup.string().required('Required')
+            hours: Yup.string().required("Required").min(0, 'Hours must be 0 or more'),
+            minutes: Yup.string().required('Required'),
+            plate_number: Yup.string().required('Required')
         }), 
     }); 
     
@@ -41,18 +43,18 @@ const ReservationForm = () => {
     }, [response]); 
 
     const calculateCost = () =>{
-        const totalCost = rate * (hours + minutes /60)
+        const totalCost = rate * (formik.values.hours + formik.values.minutes /60)
         return totalCost
     }
 
   return (
-    <div className='w-full p-2 md:w-4/12 md:p-10 bg-slate-600 shadow-md shadow-slate-500'>
+    <div className='w-full p-2 md:w-4/12 md:p-10 bg-slate-00 text-black  shadow-slate-00'>
         {
                 isOpen && <Modal />
         }
         <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
-            <p className='text-slate-300'>Specify how long you want to reserve the parking space.</p>
-            <div className='bg-slate-500 p-2 shadow-lg flex justify-between gap-4 items-center text-slate-800'>
+            <p className='text-slate-500'>Specify how long you want to reserve the parking space.</p>
+            <div className='bg-slate-300 p-2 shadow-lg flex justify-between gap-4 items-center'>
                 <p>{rate} Naira / hour</p>
                 <div className='flex justify-between items-center gap-2'>
                     <FaMoneyCheck className='text-slate-700 text-2xl'/>
@@ -61,24 +63,38 @@ const ReservationForm = () => {
             </div>
             <section className='grid grid-cols-2 gap-2'>
                 <div className='flex flex-col gap-2 text-left'>
-                    <label htmlFor='hour' className='text-white'>Hour</label>
+                    <label htmlFor='hour' className=''>Hour</label>
                     <input 
                         type='number' 
                         placeholder='Enter hour' 
-                        className='p-4 outline-none border-none'
+                        className='p-4 border-2 border-black'
                         {...formik.getFieldProps('hours')}
                     />
                     <small className='text-red-500'>{formik.errors.hours}</small>
                 </div>
                 <div className='flex flex-col gap-2 text-left'>
-                    <label htmlFor='minute' className='text-white'>Minute</label>
+                    <label htmlFor='minute' className=''>Minute</label>
                     <input 
                         type='number' 
                         placeholder='Enter minute' 
-                        className='p-4 outline-none border-none'
+                        className='p-4 border-2 border-black'
                         {...formik.getFieldProps('minutes')}
+        
                     />
                     <small className='text-red-500'>{formik.errors.minutes}</small>
+                </div>
+            </section>
+            
+            <section className='grid grid-cols-1'>
+                <div className='flex flex-col gap-2 text-left'>
+                    <label htmlFor='plate_number' className=''>Car plate number</label>
+                    <input 
+                        type='number' 
+                        placeholder='Enter car plate number' 
+                        className='p-4 border-2 border-black'
+                        {...formik.getFieldProps('plate_number')}
+                    />
+                    <small className='text-red-500'>{formik.errors.plate_number}</small>
                 </div>
             </section>
             

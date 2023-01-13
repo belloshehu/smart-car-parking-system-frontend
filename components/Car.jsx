@@ -15,8 +15,8 @@ const Car = ({name, id, reserved, occupied}) => {
     }
 
     return (
-        <div className='flex flex-col gap-2 rounded-sm bg-slate-700 shadow-sm shadow-white hover:bg-slate-500 hover:shadow-md hover:shadow-white transition-all duration-150'>
-            <h3 className='text-2xl text-amber-500 p-2 bg-black text-center font-extrabold'>{name}</h3>
+        <div className='flex flex-col gap-2 rounded-sm bg-slate-400 shadow-md shadow-slate-700 hover:bg-slate-500 hover:shadow-md hover:shadow-slate-600 transition-all duration-150'>
+            <h3 className='text-2xl text-slate-600 p-2 bg-slate-300 text-center font-bold'>{name}</h3>
             <div className='p-5 text-center items-center text-white justify-center w-full'>
                 {
                     reserved? 
@@ -36,7 +36,7 @@ const Car = ({name, id, reserved, occupied}) => {
                         <div>
                             <p>Free</p>
                             <Link 
-                                className='m-2 py-3 p-2 text-xl border-2 border-amber-600 rounded-md bg-black shadow-lg text-white hover:bg-slate-700 block'
+                                className='m-2 py-2 p-2 text-xl border-2 border-slate-300 rounded-0 bg-slate-500 shadow-lg text-slate-300 hover:bg-slate-700 block'
                                 href={`/reservation/${id}`}           
                                 >Reserve now
                             </Link> 

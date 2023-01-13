@@ -56,31 +56,31 @@ const LoginForm = () => {
     }, [response]); 
 
     return (
-        <div className='w-full p-2 lg:w-4/12 md:p-10 bg-slate-600 shadow-md shadow-slate-500 '>
+        <div className='w-full p-2 lg:w-4/12 md:p-10 bg-slate-00 text-black'>
             {
                 isOpen? <Modal /> : ""
             }
             <form className='flex flex-col gap-4' onSubmit={formik.handleSubmit}>
                 <div className='flex flex-col gap-2  text-left'>
-                    <label htmlFor='email' className='text-white'>Email</label>
+                    <label htmlFor='email' className=''>Email</label>
                     <input 
                             id='email'
                             // name='email'
                             type='email' 
                             placeholder='Enter email' 
-                            className='p-4 outline-none border-none'
+                            className='p-4 border-black border-2'
                             {...formik.getFieldProps('email')}
                         />
                     <small className='text-red-500'>{formik.errors.email}</small>
                 </div>
                 <div className='flex flex-col gap-2 text-left'>
-                    <label htmlFor='password' className='text-white'>Password</label>
+                    <label htmlFor='password' className=''>Password</label>
                     <input 
                             id='password'
                             // name='password'
                             type='password' 
                             placeholder='Enter password' 
-                            className='p-4 outline-none border-none'
+                            className='p-4 border-black border-2'
                             {...formik.getFieldProps('password')}
                         />
                     <small className='text-red-500'>{formik.errors.password}</small>
